@@ -80,7 +80,6 @@ void iniciarConGoogle() async {
         }
       }
     } catch (e) {
-      print("🚨 ERROR FATAL DE GOOGLE: $e"); 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Error al iniciar con Google'), backgroundColor: Colors.red));
       }
@@ -125,7 +124,6 @@ void iniciarConGoogle() async {
 
                 const Divider(height: 40), 
                 OutlinedButton.icon(
-                  //icon: Image.network('https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg', height: 24),
                   label: const Text('Continuar con Google'),
                   style: OutlinedButton.styleFrom(
                     minimumSize: const Size(double.infinity, 50),
