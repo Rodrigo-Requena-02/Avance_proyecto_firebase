@@ -56,19 +56,23 @@ class LoginState extends State<Login> {
 void iniciarConGoogle() async {
     setState(() => _cargando = true);
     try {
-     
+
+      await GoogleSignIn.instance.initialize(
+        serverClientId: '776509224127-peb5aa78l6bok521q3l8f29csiiv94b5.apps.googleusercontent.com',
+      );
+      
+
       final GoogleSignInAccount? usuarioGoogle = await GoogleSignIn.instance.authenticate();
       
       if (usuarioGoogle != null) {
+
+        final GoogleSignInAuthentication authGoogle = await usuarioGoogle.authentication;
         
-        final GoogleSignInAuthentication authGoogle = usuarioGoogle.authentication;
-        
-        
-        final credential = GoogleAuthProvider.credential(
+
+        final credential = GoogleAuthProvider.credential( 
           idToken: authGoogle.idToken,
         );
 
-        
         await FirebaseAuth.instance.signInWithCredential(credential);
 
         if (mounted) {
@@ -76,6 +80,7 @@ void iniciarConGoogle() async {
         }
       }
     } catch (e) {
+      print("🚨 ERROR FATAL DE GOOGLE: $e"); 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Error al iniciar con Google'), backgroundColor: Colors.red));
       }
@@ -120,7 +125,7 @@ void iniciarConGoogle() async {
 
                 const Divider(height: 40), 
                 OutlinedButton.icon(
-                  icon: Image.network('https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg', height: 24),
+                  //icon: Image.network('https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg', height: 24),
                   label: const Text('Continuar con Google'),
                   style: OutlinedButton.styleFrom(
                     minimumSize: const Size(double.infinity, 50),
